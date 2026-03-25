@@ -31,6 +31,7 @@ import {
   whyChoose,
 } from "../components/sections/sectionData";
 import { API_BASE_URL } from "../lib/api";
+import { optimizeImageUrl } from "../lib/images";
 
 const ArrowIcon = new URL("../../imports/Arrow-1.svg", import.meta.url).href;
 
@@ -51,14 +52,16 @@ const FH = "Lufga, sans-serif"; // headlines / display
 const FB = "Lufga, sans-serif"; // body text, buttons, labels
 const FS = "Lufga, sans-serif"; // stylistic / accent headlines
 
-const heroImg =
-  "https://res.cloudinary.com/dun3eercd/image/upload/v1774104038/Images02_uzq9uf.jpg";
+const heroImg = optimizeImageUrl(
+  "https://res.cloudinary.com/dun3eercd/image/upload/v1774104038/Images02_uzq9uf.jpg",
+  { width: 1100 },
+);
 
 // Client profile images for trust section
-const client1 = "https://images.unsplash.com/photo-1689600944138-da3b150d9cb8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxidXNpbmVzcyUyMHByb2Zlc3Npb25hbCUyMGhlYWRzaG90JTIwcG9ydHJhaXR8ZW58MXx8fHwxNzczODkzODY0fDA&ixlib=rb-4.1.0&q=80&w=1080";
-const client2 = "https://images.unsplash.com/photo-1655249493799-9cee4fe983bb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwcm9mZXNzaW9uYWwlMjB3b21hbiUyMGhlYWRzaG90JTIwcG9ydHJhaXR8ZW58MXx8fHwxNzczODY2NTUxfDA&ixlib=rb-4.1.0&q=80&w=1080";
-const client3 = "https://images.unsplash.com/photo-1629507208649-70919ca33793?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwcm9mZXNzaW9uYWwlMjBtYW4lMjBidXNpbmVzcyUyMHBvcnRyYWl0fGVufDF8fHx8MTc3MzgzMTkxNHww&ixlib=rb-4.1.0&q=80&w=1080";
-const client4 = "https://images.unsplash.com/photo-1771898343647-bd979ad8cca5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxlbnRyZXByZW5ldXIlMjBoZWFkc2hvdCUyMHByb2Zlc3Npb25hbHxlbnwxfHx8fDE3NzM4OTM4NjV8MA&ixlib=rb-4.1.0&q=80&w=1080";
+const client1 = optimizeImageUrl("https://images.unsplash.com/photo-1689600944138-da3b150d9cb8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxidXNpbmVzcyUyMHByb2Zlc3Npb25hbCUyMGhlYWRzaG90JTIwcG9ydHJhaXR8ZW58MXx8fHwxNzczODkzODY0fDA&ixlib=rb-4.1.0&q=80&w=1080", { width: 160 });
+const client2 = optimizeImageUrl("https://images.unsplash.com/photo-1655249493799-9cee4fe983bb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwcm9mZXNzaW9uYWwlMjB3b21hbiUyMGhlYWRzaG90JTIwcG9ydHJhaXR8ZW58MXx8fHwxNzczODY2NTUxfDA&ixlib=rb-4.1.0&q=80&w=1080", { width: 160 });
+const client3 = optimizeImageUrl("https://images.unsplash.com/photo-1629507208649-70919ca33793?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwcm9mZXNzaW9uYWwlMjBtYW4lMjBidXNpbmVzcyUyMHBvcnRyYWl0fGVufDF8fHx8MTc3MzgzMTkxNHww&ixlib=rb-4.1.0&q=80&w=1080", { width: 160 });
+const client4 = optimizeImageUrl("https://images.unsplash.com/photo-1771898343647-bd979ad8cca5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxlbnRyZXByZW5ldXIlMjBoZWFkc2hvdCUyMHByb2Zlc3Npb25hbHxlbnwxfHx8fDE3NzM4OTM4NjV8MA&ixlib=rb-4.1.0&q=80&w=1080", { width: 160 });
 
 // Client logos with brand names
 const clientLogos = [
@@ -479,17 +482,19 @@ export default function Home() {
                   {[...clientLogos, ...clientLogos, ...clientLogos].map((client, idx) => (
                     <div
                       key={idx}
-                      className="flex items-center gap-2 px-3 py-1.5 rounded-lg shrink-0 hero-brand-marquee-item"
+                      className="flex items-center gap-2.5 px-3.5 py-2 rounded-lg shrink-0 hero-brand-marquee-item"
                     >
-                      <div className="w-7 h-7 flex items-center justify-center hero-brand-marquee-logo">
+                      <div className="w-9 h-9 min-[1025px]:w-7 min-[1025px]:h-7 flex items-center justify-center hero-brand-marquee-logo">
                         <img
                           src={client.logo}
                           alt={client.name}
                           className="w-full h-full object-contain"
+                          loading="lazy"
+                          decoding="async"
                         />
                       </div>
                       <p
-                        className="text-xs whitespace-nowrap hero-brand-marquee-text"
+                        className="text-sm min-[1025px]:text-xs whitespace-nowrap hero-brand-marquee-text"
                         style={{
                           fontFamily: FB,
                           fontWeight: 500,
@@ -552,6 +557,7 @@ export default function Home() {
                   loading="eager"
                   fetchPriority="high"
                   decoding="async"
+                  sizes="(max-width: 1024px) 92vw, 46vw"
                 />
                 <div
                   className="absolute inset-0"

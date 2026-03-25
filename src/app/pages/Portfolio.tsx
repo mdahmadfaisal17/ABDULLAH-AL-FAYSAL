@@ -6,6 +6,7 @@ import { ToolsSection } from "../components/sections/ToolsSection";
 import { useModal } from "../context/ModalContext";
 import { processSteps, tools } from "../components/sections/sectionData";
 import { API_BASE_URL } from "../lib/api";
+import { optimizeImageUrl } from "../lib/images";
 
 const ArrowIcon = new URL("../../imports/Arrow-1.svg", import.meta.url).href;
 
@@ -151,9 +152,12 @@ export default function Portfolio() {
                 }}
               >
                 <img
-                  src={project.img}
+                  src={optimizeImageUrl(project.img, { width: 960 })}
                   alt={project.title}
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  loading="lazy"
+                  decoding="async"
+                  sizes="(max-width: 639px) 100vw, (max-width: 1024px) 50vw, 33vw"
                 />
                 {/* Overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />

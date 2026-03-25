@@ -1,0 +1,41 @@
+type ImageOptions = {
+  width?: number;
+  quality?: number;
+};
+
+export function optimizeImageUrl(src: string, options: ImageOptions = {}) {
+  if (!src) {
+    return src;
+  }
+
+  const { width, quality = 80 } = options;
+
+  if (src.includes("res.cloudinary.com") && src.includes("/image/upload/")) {
+    const transforms = ["f_auto", "q_auto"];
+
+    if (width) {
+      transforms.push(`w_${Math.round(width)}`);
+    }
+
+    return src.replace("/image/upload/", `/image/upload/${transforms.join(",")}/`);
+  }
+
+  if (src.includes("images.unsplash.com/")) {
+    const url = new URL(src);
+
+    url.searchParams.set("auto", "format");
+    url.searchParams.set("q", String(quality));
+
+    if (width) {
+      url.searchParams.set("w", String(Math.round(width)));
+    }
+
+    if (!url.searchParams.get("fit")) {
+      url.searchParams.set("fit", "max");
+    }
+
+    return url.toString();
+  }
+
+  return src;
+}

@@ -2,6 +2,7 @@ import { Link, useParams } from "react-router";
 import { Calendar, Clock, ArrowLeft } from "lucide-react";
 import { useEffect, useState } from "react";
 import { API_BASE_URL } from "../lib/api";
+import { optimizeImageUrl } from "../lib/images";
 
 type BlogApiItem = {
   id: string;
@@ -129,7 +130,14 @@ export default function BlogDetails() {
         </div>
 
         <div className="rounded-2xl overflow-hidden border border-white/10 mb-8">
-          <img src={resolvedPost.thumbnail} alt={resolvedPost.title} className="w-full h-auto object-cover" />
+          <img
+            src={optimizeImageUrl(resolvedPost.thumbnail, { width: 1200 })}
+            alt={resolvedPost.title}
+            className="w-full h-auto object-cover"
+            decoding="async"
+            fetchPriority="high"
+            sizes="(max-width: 1024px) 100vw, 960px"
+          />
         </div>
 
         <article

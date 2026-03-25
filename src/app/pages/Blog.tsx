@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { CtaSection } from "../components/sections/CtaSection";
 import { useModal } from "../context/ModalContext";
 import { API_BASE_URL } from "../lib/api";
+import { optimizeImageUrl } from "../lib/images";
 import ArrowIcon from "../../imports/Arrow-1.svg";
 
 type BlogApiItem = {
@@ -132,9 +133,12 @@ export default function Blog() {
               >
                 <div className="aspect-[4/3] lg:aspect-auto overflow-hidden">
                   <img
-                    src={featured.thumbnail}
+                    src={optimizeImageUrl(featured.thumbnail, { width: 1200 })}
                     alt={featured.title}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    decoding="async"
+                    fetchPriority="high"
+                    sizes="(max-width: 1024px) 100vw, 50vw"
                   />
                 </div>
                 <div className="p-8 lg:p-12 flex flex-col justify-center bg-white/[0.02]">
@@ -197,9 +201,12 @@ export default function Blog() {
               >
                 <div className="aspect-[16/9] overflow-hidden">
                   <img
-                    src={post.thumbnail}
+                    src={optimizeImageUrl(post.thumbnail, { width: 720 })}
                     alt={post.title}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    loading="lazy"
+                    decoding="async"
+                    sizes="(max-width: 639px) 100vw, (max-width: 1024px) 50vw, 33vw"
                   />
                 </div>
                 <div className="p-6 flex flex-col flex-1">
