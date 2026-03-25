@@ -2,7 +2,7 @@ import { Link, useParams } from "react-router";
 import { Calendar, Clock, ArrowLeft } from "lucide-react";
 import { useEffect, useState } from "react";
 import { API_BASE_URL } from "../lib/api";
-import { optimizeImageUrl } from "../lib/images";
+import { buildResponsiveImageSet, optimizeImageUrl } from "../lib/images";
 
 type BlogApiItem = {
   id: string;
@@ -95,6 +95,7 @@ export default function BlogDetails() {
   }
 
   const resolvedPost = post;
+  const heroImage = buildResponsiveImageSet(resolvedPost.thumbnail, [480, 720, 960, 1200]);
 
   return (
     <div className="bg-[#0a0b1a] text-white min-h-screen">
@@ -131,7 +132,8 @@ export default function BlogDetails() {
 
         <div className="rounded-2xl overflow-hidden border border-white/10 mb-8">
           <img
-            src={optimizeImageUrl(resolvedPost.thumbnail, { width: 1200 })}
+            src={heroImage.src ?? optimizeImageUrl(resolvedPost.thumbnail, { width: 1200 })}
+            srcSet={heroImage.srcSet}
             alt={resolvedPost.title}
             className="w-full h-auto object-cover"
             decoding="async"

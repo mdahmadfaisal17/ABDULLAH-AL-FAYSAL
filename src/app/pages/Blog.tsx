@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { CtaSection } from "../components/sections/CtaSection";
 import { useModal } from "../context/ModalContext";
 import { API_BASE_URL } from "../lib/api";
-import { optimizeImageUrl } from "../lib/images";
+import { buildResponsiveImageSet, optimizeImageUrl } from "../lib/images";
 import ArrowIcon from "../../imports/Arrow-1.svg";
 
 type BlogApiItem = {
@@ -74,6 +74,9 @@ export default function Blog() {
 
   const featured = posts[0];
   const rest = posts.slice(1);
+  const featuredImage = featured
+    ? buildResponsiveImageSet(featured.thumbnail, [480, 720, 960, 1200])
+    : null;
   const formatDate = (value: string) =>
     new Date(value).toLocaleDateString("en-US", {
       month: "long",
@@ -133,7 +136,8 @@ export default function Blog() {
               >
                 <div className="aspect-[4/3] lg:aspect-auto overflow-hidden">
                   <img
-                    src={optimizeImageUrl(featured.thumbnail, { width: 1200 })}
+                    src={featuredImage?.src ?? optimizeImageUrl(featured.thumbnail, { width: 1200 })}
+                    srcSet={featuredImage?.srcSet}
                     alt={featured.title}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     decoding="async"

@@ -3,6 +3,21 @@ type ImageOptions = {
   quality?: number;
 };
 
+export function buildResponsiveImageSet(
+  src: string,
+  widths: number[],
+  options: Omit<ImageOptions, "width"> = {},
+) {
+  const normalizedWidths = Array.from(new Set(widths)).sort((a, b) => a - b);
+
+  return {
+    src: optimizeImageUrl(src, { ...options, width: normalizedWidths.at(-1) }),
+    srcSet: normalizedWidths
+      .map((width) => `${optimizeImageUrl(src, { ...options, width })} ${width}w`)
+      .join(", "),
+  };
+}
+
 export function optimizeImageUrl(src: string, options: ImageOptions = {}) {
   if (!src) {
     return src;

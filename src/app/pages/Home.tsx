@@ -31,7 +31,7 @@ import {
   whyChoose,
 } from "../components/sections/sectionData";
 import { API_BASE_URL } from "../lib/api";
-import { optimizeImageUrl } from "../lib/images";
+import { buildResponsiveImageSet, optimizeImageUrl } from "../lib/images";
 
 const ArrowIcon = new URL("../../imports/Arrow-1.svg", import.meta.url).href;
 
@@ -54,7 +54,11 @@ const FS = "Lufga, sans-serif"; // stylistic / accent headlines
 
 const heroImg = optimizeImageUrl(
   "https://res.cloudinary.com/dun3eercd/image/upload/v1774104038/Images02_uzq9uf.jpg",
-  { width: 1100 },
+  { width: 960 },
+);
+const heroImgResponsive = buildResponsiveImageSet(
+  "https://res.cloudinary.com/dun3eercd/image/upload/v1774104038/Images02_uzq9uf.jpg",
+  [480, 720, 960, 1200],
 );
 
 // Client profile images for trust section
@@ -145,6 +149,22 @@ function PricingTabs({ openModal }: { openModal: () => void }) {
         })}
       </div>
 
+      <div className="flex justify-end mb-8">
+        <NavLink
+          to="/pricing"
+          className="inline-flex items-center gap-2 text-sm transition-colors"
+          style={{ fontFamily: FB, fontWeight: 500, color: "#0a0b1a" }}
+        >
+          View Pricing Details
+          <img
+            src={ArrowIcon}
+            alt=""
+            className="w-3 h-3"
+            style={{ filter: "brightness(0) saturate(100%)" }}
+          />
+        </NavLink>
+      </div>
+
       {/* Cards */}
       <PricingPlansGrid plans={plans} openModal={openModal} />
     </div>
@@ -164,6 +184,7 @@ export default function Home() {
 
   useEffect(() => {
     let isMounted = true;
+    let timeoutId: ReturnType<typeof setTimeout> | undefined;
 
     const fetchPortfolioItems = async () => {
       try {
@@ -201,10 +222,30 @@ export default function Home() {
       }
     };
 
-    void fetchPortfolioItems();
+    const scheduleFetch = () => {
+      timeoutId = setTimeout(() => {
+        void fetchPortfolioItems();
+      }, 900);
+    };
+
+    if (typeof window !== "undefined" && "requestIdleCallback" in window) {
+      const idleHandle = window.requestIdleCallback(() => {
+        void fetchPortfolioItems();
+      }, { timeout: 1500 });
+
+      return () => {
+        isMounted = false;
+        window.cancelIdleCallback(idleHandle);
+      };
+    }
+
+    scheduleFetch();
 
     return () => {
       isMounted = false;
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
     };
   }, []);
 
@@ -453,7 +494,7 @@ export default function Home() {
             </div>
 
             {/* Logo Marquee */}
-            <div className="relative overflow-hidden hero-brand-marquee w-full max-[450px]:self-stretch max-[450px]:px-1">
+            <div className="relative overflow-hidden hero-brand-marquee w-full max-[450px]:self-stretch max-[450px]:mx-[-0.75rem] max-[450px]:w-[calc(100%+1.5rem)] max-[450px]:px-1">
               <p
                 className="text-sm mb-3"
                 style={{
@@ -552,12 +593,13 @@ export default function Home() {
               >
                 <img
                   src={heroImg}
+                  srcSet={heroImgResponsive.srcSet}
                   alt="Designer at work"
                   className="w-full h-full object-cover"
                   loading="eager"
                   fetchPriority="high"
                   decoding="async"
-                  sizes="(max-width: 1024px) 92vw, 46vw"
+                  sizes="(max-width: 450px) 92vw, (max-width: 1024px) 88vw, 46vw"
                 />
                 <div
                   className="absolute inset-0"
@@ -616,7 +658,7 @@ export default function Home() {
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 0.8, duration: 0.5 }}
-                className="absolute -top-4 -right-4 rounded-2xl p-3"
+                className="absolute -top-4 -right-4 max-[450px]:-top-10 max-[450px]:right-2 rounded-2xl p-3"
                 style={{
                   background: "rgba(14,16,38,0.90)",
                   border: "1px solid rgba(255,255,255,0.10)",
@@ -800,11 +842,12 @@ export default function Home() {
                   onClick={() => { if (item.projectLink) window.open(item.projectLink, "_blank", "noopener,noreferrer"); }}
                 >
                   <img
-                    src={item.imageUrl}
+                    src={optimizeImageUrl(item.imageUrl, { width: 960 })}
                     alt={item.title}
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                     loading="lazy"
                     decoding="async"
+                    sizes="(max-width: 639px) 100vw, 50vw"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
@@ -896,22 +939,6 @@ export default function Home() {
             >
               Clear pricing, no confusion. Choose a package that fits your needs.
             </p>
-
-            <div className="flex justify-end mb-8">
-              <NavLink
-                to="/pricing"
-                className="inline-flex items-center gap-2 text-sm transition-colors"
-                style={{ fontFamily: FB, fontWeight: 500, color: "#0a0b1a" }}
-              >
-                View Pricing Details
-                <img
-                  src={ArrowIcon}
-                  alt=""
-                  className="w-3 h-3"
-                  style={{ filter: "brightness(0) saturate(100%)" }}
-                />
-              </NavLink>
-            </div>
 
             <PricingTabs openModal={openModal} />
           </FadeUp>

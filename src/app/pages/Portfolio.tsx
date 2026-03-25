@@ -6,7 +6,7 @@ import { ToolsSection } from "../components/sections/ToolsSection";
 import { useModal } from "../context/ModalContext";
 import { processSteps, tools } from "../components/sections/sectionData";
 import { API_BASE_URL } from "../lib/api";
-import { optimizeImageUrl } from "../lib/images";
+import { buildResponsiveImageSet, optimizeImageUrl } from "../lib/images";
 
 const ArrowIcon = new URL("../../imports/Arrow-1.svg", import.meta.url).href;
 
@@ -129,74 +129,78 @@ export default function Portfolio() {
       <div className="max-w-7xl mx-auto px-6 lg:px-8 pb-24">
         <motion.div layout className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           <AnimatePresence mode="popLayout">
-            {filtered.map((project) => (
-              <motion.div
-                key={project.id}
-                layout
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.95 }}
-                transition={{ duration: 0.35 }}
-                className={`group relative rounded-2xl overflow-hidden aspect-[8/5] ${
-                  project.link ? "cursor-pointer" : "cursor-default"
-                }`}
-                style={{
-                  background: "linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03))",
-                  border: "1px solid rgba(255,255,255,0.08)",
-                  boxShadow: "0 24px 55px rgba(0,0,0,0.22)",
-                }}
-                onClick={() => {
-                  if (project.link) {
-                    window.open(project.link, "_blank", "noopener,noreferrer");
-                  }
-                }}
-              >
-                <img
-                  src={optimizeImageUrl(project.img, { width: 960 })}
-                  alt={project.title}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                  loading="lazy"
-                  decoding="async"
-                  sizes="(max-width: 639px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                />
-                {/* Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+            {filtered.map((project) => {
+              const responsiveImage = buildResponsiveImageSet(project.img, [480, 720, 960, 1200]);
 
-                {project.link && (
-                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 transform scale-75 group-hover:scale-100">
-                    <div
-                      className="w-16 h-16 rounded-full flex items-center justify-center"
-                      style={{ background: "rgba(225, 254, 93, 0.9)" }}
-                    >
-                      <img
-                        src={ArrowIcon}
-                        alt=""
-                        className="w-6 h-6"
-                        style={{ filter: "brightness(0) saturate(100%)" }}
-                      />
+              return (
+                <motion.div
+                  key={project.id}
+                  layout
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
+                  transition={{ duration: 0.35 }}
+                  className={`group relative rounded-2xl overflow-hidden aspect-[8/5] ${
+                    project.link ? "cursor-pointer" : "cursor-default"
+                  }`}
+                  style={{
+                    background: "linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03))",
+                    border: "1px solid rgba(255,255,255,0.08)",
+                    boxShadow: "0 24px 55px rgba(0,0,0,0.22)",
+                  }}
+                  onClick={() => {
+                    if (project.link) {
+                      window.open(project.link, "_blank", "noopener,noreferrer");
+                    }
+                  }}
+                >
+                  <img
+                    src={responsiveImage.src ?? optimizeImageUrl(project.img, { width: 960 })}
+                    srcSet={responsiveImage.srcSet}
+                    alt={project.title}
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    loading="lazy"
+                    decoding="async"
+                    sizes="(max-width: 639px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+
+                  {project.link && (
+                    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 transform scale-75 group-hover:scale-100">
+                      <div
+                        className="w-16 h-16 rounded-full flex items-center justify-center"
+                        style={{ background: "rgba(225, 254, 93, 0.9)" }}
+                      >
+                        <img
+                          src={ArrowIcon}
+                          alt=""
+                          className="w-6 h-6"
+                          style={{ filter: "brightness(0) saturate(100%)" }}
+                        />
+                      </div>
                     </div>
-                  </div>
-                )}
+                  )}
 
-                <div className="absolute bottom-0 left-0 right-0 p-4 translate-y-4 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300">
-                  <p
-                    className="text-xs text-[#E1FE5D] mb-0.5"
-                    style={{ fontFamily: "Lufga, sans-serif" }}
-                  >
-                    {project.cat}
-                  </p>
-                  <p
-                    className="text-white"
-                    style={{
-                      fontFamily: "Lufga, sans-serif",
-                      fontWeight: 700,
-                    }}
-                  >
-                    {project.title}
-                  </p>
-                </div>
-              </motion.div>
-            ))}
+                  <div className="absolute bottom-0 left-0 right-0 p-4 translate-y-4 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300">
+                    <p
+                      className="text-xs text-[#E1FE5D] mb-0.5"
+                      style={{ fontFamily: "Lufga, sans-serif" }}
+                    >
+                      {project.cat}
+                    </p>
+                    <p
+                      className="text-white"
+                      style={{
+                        fontFamily: "Lufga, sans-serif",
+                        fontWeight: 700,
+                      }}
+                    >
+                      {project.title}
+                    </p>
+                  </div>
+                </motion.div>
+              );
+            })}
           </AnimatePresence>
         </motion.div>
       </div>
