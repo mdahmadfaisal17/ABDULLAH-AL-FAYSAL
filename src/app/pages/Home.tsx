@@ -337,7 +337,7 @@ export default function Home() {
               duration: 0.8,
               ease: [0.16, 1, 0.3, 1],
             }}
-            className="max-[450px]:flex max-[450px]:flex-col max-[450px]:items-center max-[1024px]:text-center"
+            className="max-[450px]:flex max-[450px]:flex-col max-[450px]:items-center max-[450px]:w-full max-[1024px]:text-center"
           >
             {/* Trust/Social Proof Section */}
             <div className="flex items-center gap-3 min-[1025px]:gap-4 mb-6 max-[1024px]:justify-center">
@@ -453,7 +453,7 @@ export default function Home() {
             </div>
 
             {/* Logo Marquee */}
-            <div className="relative overflow-hidden hero-brand-marquee">
+            <div className="relative overflow-hidden hero-brand-marquee w-full max-[450px]:self-stretch max-[450px]:px-1">
               <p
                 className="text-sm mb-3"
                 style={{
@@ -465,9 +465,9 @@ export default function Home() {
               >
                 Brands I’ve worked with
               </p>
-              <div className="relative h-14 overflow-hidden hero-brand-marquee-viewport">
+              <div className="relative h-16 min-[1025px]:h-14 overflow-hidden hero-brand-marquee-viewport w-full">
                 <motion.div
-                  className="flex gap-4 items-center absolute hero-brand-marquee-track"
+                  className="flex gap-3 min-[451px]:gap-4 items-center absolute hero-brand-marquee-track"
                   animate={{
                     x: [0, -1800],
                   }}
@@ -482,9 +482,9 @@ export default function Home() {
                   {[...clientLogos, ...clientLogos, ...clientLogos].map((client, idx) => (
                     <div
                       key={idx}
-                      className="flex items-center gap-2.5 px-3.5 py-2 rounded-lg shrink-0 hero-brand-marquee-item"
+                      className="flex items-center gap-2.5 px-4 min-[451px]:px-3.5 py-2.5 min-[451px]:py-2 rounded-lg shrink-0 hero-brand-marquee-item"
                     >
-                      <div className="w-9 h-9 min-[1025px]:w-7 min-[1025px]:h-7 flex items-center justify-center hero-brand-marquee-logo">
+                      <div className="w-10 h-10 min-[451px]:w-9 min-[451px]:h-9 min-[1025px]:w-7 min-[1025px]:h-7 flex items-center justify-center hero-brand-marquee-logo">
                         <img
                           src={client.logo}
                           alt={client.name}
@@ -494,7 +494,7 @@ export default function Home() {
                         />
                       </div>
                       <p
-                        className="text-sm min-[1025px]:text-xs whitespace-nowrap hero-brand-marquee-text"
+                        className="text-[0.95rem] min-[451px]:text-sm min-[1025px]:text-xs whitespace-nowrap hero-brand-marquee-text"
                         style={{
                           fontFamily: FB,
                           fontWeight: 500,
@@ -897,9 +897,7 @@ export default function Home() {
               Clear pricing, no confusion. Choose a package that fits your needs.
             </p>
 
-            <PricingTabs openModal={openModal} />
-
-            <div className="flex justify-end mt-8 mb-2">
+            <div className="flex justify-end mb-8">
               <NavLink
                 to="/pricing"
                 className="inline-flex items-center gap-2 text-sm transition-colors"
@@ -914,6 +912,8 @@ export default function Home() {
                 />
               </NavLink>
             </div>
+
+            <PricingTabs openModal={openModal} />
           </FadeUp>
         </div>
       </section>
