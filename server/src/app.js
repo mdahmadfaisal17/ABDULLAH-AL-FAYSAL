@@ -57,8 +57,10 @@ app.get("/", (_request, response) => {
   });
 });
 
+app.use("/auth", authRouter);
 app.use("/api/auth", authRouter);
 app.use("/api", requireDbConnection, apiRouter);
+app.use("/", requireDbConnection, apiRouter);
 
 app.use(notFoundHandler);
 app.use(errorHandler);
