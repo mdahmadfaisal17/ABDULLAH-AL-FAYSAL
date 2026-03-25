@@ -36,3 +36,5 @@ tmp_*.json
 .idea/
 .DS_Store
 Thumbs.db
+Desktop.ini
+desktop.ini
