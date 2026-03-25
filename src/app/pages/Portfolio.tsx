@@ -5,6 +5,7 @@ import { ProcessSection } from "../components/sections/ProcessSection";
 import { ToolsSection } from "../components/sections/ToolsSection";
 import { useModal } from "../context/ModalContext";
 import { processSteps, tools } from "../components/sections/sectionData";
+import { API_BASE_URL } from "../lib/api";
 
 const ArrowIcon = new URL("../../imports/Arrow-1.svg", import.meta.url).href;
 
@@ -28,7 +29,7 @@ export default function Portfolio() {
 
     const loadPortfolioItems = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/portfolio");
+        const response = await fetch(`${API_BASE_URL}/portfolio`);
 
         if (!response.ok) {
           throw new Error(`Failed to fetch portfolio items: ${response.status}`);

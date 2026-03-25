@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router";
 import { X, Mail, Phone, Menu } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { useModal } from "../context/ModalContext";
+import { API_BASE_URL } from "../lib/api";
 import brandLogo from "../../imports/Brand_logos/logo.svg";
 import instagramIcon from "../../imports/social_links/instagram.svg";
 import facebookIcon from "../../imports/social_links/facebook.svg";
@@ -72,10 +73,6 @@ export function Header() {
   const isHomePage = location.pathname === "/";
   const { openModal } = useModal();
 
-  const apiBaseUrl =
-    (import.meta.env.VITE_API_BASE_URL as string | undefined)?.replace(/\/$/, "") ||
-    "/api";
-
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
@@ -104,7 +101,7 @@ export function Header() {
       setIsSubscribing(true);
       setSubscribeMessage("");
 
-      const response = await fetch(`${apiBaseUrl}/subscribers`, {
+      const response = await fetch(`${API_BASE_URL}/subscribers`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

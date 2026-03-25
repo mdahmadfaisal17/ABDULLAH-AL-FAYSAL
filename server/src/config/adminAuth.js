@@ -38,8 +38,9 @@ export function getCookieOptions() {
 
   return {
     httpOnly: true,
-    sameSite: isProduction ? "Strict" : "Lax",
+    sameSite: isProduction ? "None" : "Lax",
     secure: isProduction,
     path: "/",
+    domain: process.env.ADMIN_SESSION_COOKIE_DOMAIN || undefined,
   };
 }

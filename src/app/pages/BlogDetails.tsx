@@ -1,6 +1,7 @@
 import { Link, useParams } from "react-router";
 import { Calendar, Clock, ArrowLeft } from "lucide-react";
 import { useEffect, useState } from "react";
+import { API_BASE_URL } from "../lib/api";
 
 type BlogApiItem = {
   id: string;
@@ -24,7 +25,7 @@ export default function BlogDetails() {
 
     const loadBlog = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/blogs");
+        const response = await fetch(`${API_BASE_URL}/blogs`);
         if (!response.ok) {
           throw new Error(`Failed to fetch blogs: ${response.status}`);
         }

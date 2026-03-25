@@ -1,18 +1,7 @@
 import crypto from "crypto";
 import { getAdminAuthConfig, getCookieOptions } from "../config/adminAuth.js";
 
-const sessionStore = new Map();
 const cookieName = "admin_session";
-
-function pruneExpiredSessions() {
-  const now = Date.now();
-
-  for (const [sessionId, session] of sessionStore.entries()) {
-    if (session.expiresAt <= now) {
-      sessionStore.delete(sessionId);
-    }
-  }
-}
 
 function parseCookies(cookieHeader = "") {
   return cookieHeader
@@ -51,21 +40,76 @@ function serializeCookie(name, value, options = {}) {
   if (options.path) {
     parts.push(`Path=${options.path}`);
   }
+  if (options.domain) {
+    parts.push(`Domain=${options.domain}`);
+  }
 
   return parts.join("; ");
 }
 
+function createSessionSignature(payload, secret) {
+  return crypto.createHmac("sha256", secret).update(payload).digest("base64url");
+}
+
+function encodeSession(email, expiresAt, secret) {
+  const payload = Buffer.from(
+    JSON.stringify({
+      email,
+      expiresAt,
+    }),
+  ).toString("base64url");
+  const signature = createSessionSignature(payload, secret);
+  return `${payload}.${signature}`;
+}
+
+function decodeSession(token, secret) {
+  if (!token || !token.includes(".")) {
+    return null;
+  }
+
+  const [payload, signature] = token.split(".");
+  const expectedSignature = createSessionSignature(payload, secret);
+  const signatureBuffer = Buffer.from(signature);
+  const expectedBuffer = Buffer.from(expectedSignature);
+
+  if (signatureBuffer.length !== expectedBuffer.length) {
+    return null;
+  }
+
+  if (!crypto.timingSafeEqual(signatureBuffer, expectedBuffer)) {
+    return null;
+  }
+
+  try {
+    const session = JSON.parse(Buffer.from(payload, "base64url").toString("utf8"));
+
+    if (!session?.email || !session?.expiresAt) {
+      return null;
+    }
+
+    if (Number(session.expiresAt) <= Date.now()) {
+      return null;
+    }
+
+    return {
+      sessionId: token,
+      email: String(session.email),
+      expiresAt: Number(session.expiresAt),
+    };
+  } catch {
+    return null;
+  }
+}
+
 export function createAdminSession(email) {
-  pruneExpiredSessions();
+  const { sessionSecret, sessionTtlMs } = getAdminAuthConfig();
 
-  const { sessionTtlMs } = getAdminAuthConfig();
-  const sessionId = crypto.randomBytes(32).toString("hex");
+  if (!sessionSecret) {
+    throw new Error("Missing ADMIN_SESSION_SECRET. Set it before starting the API.");
+  }
+
   const expiresAt = Date.now() + sessionTtlMs;
-
-  sessionStore.set(sessionId, {
-    email,
-    expiresAt,
-  });
+  const sessionId = encodeSession(email, expiresAt, sessionSecret);
 
   return {
     sessionId,
@@ -74,38 +118,24 @@ export function createAdminSession(email) {
 }
 
 export function readAdminSession(request) {
-  pruneExpiredSessions();
+  const { sessionSecret } = getAdminAuthConfig();
+
+  if (!sessionSecret) {
+    return null;
+  }
 
   const cookies = parseCookies(request.headers.cookie);
-  const sessionId = cookies[cookieName];
+  const sessionToken = cookies[cookieName];
 
-  if (!sessionId) {
+  if (!sessionToken) {
     return null;
   }
 
-  const session = sessionStore.get(sessionId);
-
-  if (!session) {
-    return null;
-  }
-
-  if (session.expiresAt <= Date.now()) {
-    sessionStore.delete(sessionId);
-    return null;
-  }
-
-  return {
-    sessionId,
-    ...session,
-  };
+  return decodeSession(sessionToken, sessionSecret);
 }
 
-export function clearAdminSession(request) {
-  const session = readAdminSession(request);
-
-  if (session) {
-    sessionStore.delete(session.sessionId);
-  }
+export function clearAdminSession() {
+  return;
 }
 
 export function attachAdminSessionCookie(response, sessionId) {

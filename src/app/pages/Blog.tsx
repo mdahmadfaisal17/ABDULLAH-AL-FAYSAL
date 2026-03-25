@@ -4,6 +4,7 @@ import { Link } from "react-router";
 import { useEffect, useState } from "react";
 import { CtaSection } from "../components/sections/CtaSection";
 import { useModal } from "../context/ModalContext";
+import { API_BASE_URL } from "../lib/api";
 import ArrowIcon from "../../imports/Arrow-1.svg";
 
 type BlogApiItem = {
@@ -49,7 +50,7 @@ export default function Blog() {
 
     const loadBlogs = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/blogs");
+        const response = await fetch(`${API_BASE_URL}/blogs`);
         if (!response.ok) {
           throw new Error(`Failed to fetch blogs: ${response.status}`);
         }
