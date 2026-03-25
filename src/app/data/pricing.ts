@@ -1,0 +1,250 @@
+export const pricingServices = [
+  "Brand Identity",
+  "Monthly Social Media Design",
+  "Event Branding",
+  "Apparel Mockups",
+] as const;
+
+export type PricingService = typeof pricingServices[number];
+
+export type PricingPlan = {
+  name: string;
+  price: string;
+  priceLabel: string;
+  desc: string;
+  delivery: string;
+  revisions: string;
+  features: string[];
+  notIncluded: string[];
+  highlighted: boolean;
+};
+
+export const defaultPricingService: PricingService = "Monthly Social Media Design";
+
+export const pricingByService: Record<PricingService, PricingPlan[]> = {
+  "Brand Identity": [
+    {
+      name: "Basic",
+      price: "$60",
+      priceLabel: "/project",
+      desc: "Essential brand identity for new businesses",
+      delivery: "3-5 days",
+      revisions: "Up to 3 rounds",
+      features: [
+        "Logo design (1 concept)",
+        "Basic color palette",
+        "Typography selection",
+        "Essential file formats (JPG, PNG)",
+      ],
+      notIncluded: [],
+      highlighted: false,
+    },
+    {
+      name: "Standard",
+      price: "$180",
+      priceLabel: "/project",
+      desc: "Complete brand system for growing brands",
+      delivery: "4-7 days",
+      revisions: "Up to 5 rounds",
+      features: [
+        "Logo system (2-3 concepts)",
+        "Color palette + typography system",
+        "Basic brand guidelines",
+        "Brand voice basics",
+        "All essential formats + source files (AI, SVG)",
+      ],
+      notIncluded: [],
+      highlighted: true,
+    },
+    {
+      name: "Premium",
+      price: "$450",
+      priceLabel: "/project",
+      desc: "Full strategy & identity system",
+      delivery: "15-25 business days",
+      revisions: "Up to 10 rounds",
+      features: [
+        "Brand strategy (positioning + audience clarity)",
+        "Complete visual identity system (3-4 concepts)",
+        "Full brand guideline",
+        "Brand voice & messaging",
+        "Usage rules (Do's & Don'ts)",
+        "Priority support",
+        "All formats + fully organized source files",
+      ],
+      notIncluded: [],
+      highlighted: false,
+    },
+  ],
+  "Monthly Social Media Design": [
+    {
+      name: "Basic",
+      price: "$120",
+      priceLabel: "/month",
+      desc: "Essential content design for consistent presence",
+      delivery: "Within the month",
+      revisions: "Focused",
+      features: [
+        "8 posts per month",
+        "Basic visual style",
+        "Platform optimization",
+        "Ready-to-use final files",
+        "Best for small brands starting out",
+      ],
+      notIncluded: [],
+      highlighted: false,
+    },
+    {
+      name: "Standard",
+      price: "$250",
+      priceLabel: "/month",
+      desc: "Complete content system for growing brands",
+      delivery: "Within the month",
+      revisions: "Focused",
+      features: [
+        "15 posts per month",
+        "Custom visual direction",
+        "Content consistency system",
+        "Platform-specific optimization",
+        "Priority support",
+        "All final files",
+        "Best balance of consistency and quality",
+      ],
+      notIncluded: [],
+      highlighted: true,
+    },
+    {
+      name: "Premium",
+      price: "$400",
+      priceLabel: "/month",
+      desc: "Advanced content strategy & visual system",
+      delivery: "Faster delivery",
+      revisions: "Focused",
+      features: [
+        "25+ posts per month",
+        "Full content design system",
+        "Advanced visual direction",
+        "Strategy-level support",
+        "Priority + faster delivery",
+        "Ongoing design support",
+        "All files + organized assets",
+        "For brands building strong online presence",
+      ],
+      notIncluded: [],
+      highlighted: false,
+    },
+  ],
+  "Event Branding": [
+    {
+      name: "Basic",
+      price: "$80",
+      priceLabel: "/project",
+      desc: "Essential event visuals for small setups",
+      delivery: "3-5 business days",
+      revisions: "Up to 3 rounds",
+      features: [
+        "Event logo / theme design",
+        "Invitation card & digital invites",
+        "Basic social media promotion visuals",
+        "Print-ready files included",
+        "Essential file formats (JPG, PNG)",
+      ],
+      notIncluded: [],
+      highlighted: false,
+    },
+    {
+      name: "Standard",
+      price: "$200",
+      priceLabel: "/project",
+      desc: "Complete event system for growing events",
+      delivery: "7-10 business days",
+      revisions: "Up to 5 rounds",
+      features: [
+        "Event logo / theme design",
+        "Invitation + promotion visual set",
+        "Banner, poster & backdrop design",
+        "Stage, standee & signage system",
+        "Print-ready files included",
+        "All essential formats + source files",
+      ],
+      notIncluded: [],
+      highlighted: true,
+    },
+    {
+      name: "Premium",
+      price: "$400",
+      priceLabel: "/project",
+      desc: "Full event branding & visual system",
+      delivery: "15-25 business days",
+      revisions: "Up to 10 rounds",
+      features: [
+        "Complete event visual system",
+        "Event logo & full theme direction",
+        "Invitation + full promotion system",
+        "Banner, backdrop & signage system",
+        "ID card, ticket & wristband design",
+        "Print-ready production files included",
+        "Priority support",
+        "All formats + fully organized source files",
+      ],
+      notIncluded: [],
+      highlighted: false,
+    },
+  ],
+  "Apparel Mockups": [
+    {
+      name: "Basic",
+      price: "$70",
+      priceLabel: "/project",
+      desc: "Simple product presentation",
+      delivery: "3-5 business days",
+      revisions: "Up to 3 rounds",
+      features: [
+        "1 apparel mockup (t-shirt / hoodie)",
+        "Front view only",
+        "Clean presentation style",
+        "Basic design placement",
+        "Ready-to-use images (JPG, PNG)",
+      ],
+      notIncluded: [],
+      highlighted: false,
+    },
+    {
+      name: "Standard",
+      price: "$180",
+      priceLabel: "/project",
+      desc: "Complete product presentation",
+      delivery: "7-10 business days",
+      revisions: "Up to 5 rounds",
+      features: [
+        "1 apparel mockup",
+        "Front & back views",
+        "Consistent visual presentation",
+        "Advanced design placement",
+        "High-resolution exports",
+        "Source files included",
+      ],
+      notIncluded: [],
+      highlighted: true,
+    },
+    {
+      name: "Premium",
+      price: "$350",
+      priceLabel: "/project",
+      desc: "Advanced product presentation system",
+      delivery: "7-10 days",
+      revisions: "Up to 10 rounds",
+      features: [
+        "1 apparel mockup",
+        "Front, back & angled views",
+        "High-end realistic presentation",
+        "Brand-consistent mockup style",
+        "Production-ready files",
+        "Fully organized source files",
+        "Priority support",
+      ],
+      notIncluded: [],
+      highlighted: false,
+    },
+  ],
+};

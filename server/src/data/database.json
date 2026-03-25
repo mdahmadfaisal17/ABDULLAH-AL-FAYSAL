@@ -1,0 +1,104 @@
+{
+  "blogs": [
+    {
+      "id": "blog-1",
+      "title": "Designing SaaS Dashboards That Teams Actually Enjoy Using",
+      "slug": "designing-saas-dashboards-teams-enjoy",
+      "content": "A strong admin interface should reduce decision fatigue, highlight what matters first, and make repetitive workflows feel crisp. This article breaks down practical patterns for better hierarchy, summaries, and action grouping in SaaS dashboards.",
+      "excerpt": "Practical patterns for admin interfaces with better hierarchy, summaries, and action grouping.",
+      "thumbnail": "https://images.unsplash.com/photo-1558655146-d09347e92766?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1200",
+      "publishedAt": "2026-03-10T09:00:00.000Z",
+      "status": "Published"
+    },
+    {
+      "id": "blog-2",
+      "title": "How Portfolio Websites Can Win Higher-Value Client Work",
+      "slug": "portfolio-websites-win-higher-value-clients",
+      "content": "Your portfolio is more than a gallery. It should tell a story, show process, prove outcomes, and create confidence before a discovery call ever happens. Here is a structure that helps premium clients self-qualify.",
+      "excerpt": "A portfolio structure that tells a stronger story and helps premium clients self-qualify.",
+      "thumbnail": "https://images.unsplash.com/photo-1498050108023-c5249f4df085?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1200",
+      "publishedAt": "2026-03-08T15:00:00.000Z",
+      "status": "Published"
+    },
+    {
+      "id": "blog-3",
+      "title": "What Makes a Modern Brand Site Feel Premium",
+      "slug": "what-makes-a-modern-brand-site-feel-premium",
+      "content": "Premium brand sites balance restraint with strong personality. Layout rhythm, image direction, and confident whitespace create that first impression faster than decorative effects ever can.",
+      "excerpt": "Layout rhythm, image direction, and confident whitespace are what make a site feel premium.",
+      "thumbnail": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1200",
+      "publishedAt": "2026-03-05T12:30:00.000Z",
+      "status": "Draft"
+    }
+  ],
+  "portfolioItems": [
+    {
+      "id": "portfolio-1",
+      "title": "Northstar Logistics Rebrand",
+      "image": "https://images.unsplash.com/photo-1763705857736-2b4f16a33758?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxicmFuZCUyMGlkZW50aXR5JTIwbG9nbyUyMGRlc2lnbiUyMHBvcnRmb2xpb3xlbnwxfHx8fDE3NzM4MTAzOTl8MA&ixlib=rb-4.1.0&q=80&w=600",
+      "category": "Corporate",
+      "description": "A sharp corporate redesign with service-focused landing pages, recruitment touchpoints, and a tighter visual identity system.",
+      "link": "https://www.behance.net/gallery/241097489/T-Shirt-Mockup-for-Clothing-Brand",
+      "featuredPosition": 1,
+      "createdAt": "2026-03-02T10:00:00.000Z"
+    },
+    {
+      "id": "portfolio-2",
+      "title": "Studio Bloom Portfolio",
+      "image": "https://images.unsplash.com/photo-1663153206213-d45285ce3fe2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzb2NpYWwlMjBtZWRpYSUyMGRlc2lnbiUyMGNyZWF0aXZlJTIwY29udGVudHxlbnwxfHx8fDE3NzM4MTA0MDB8MA&ixlib=rb-4.1.0&q=80&w=600",
+      "category": "Portfolio",
+      "description": "Visual storytelling for a creative studio, pairing editorial typography with modular case-study layouts and softer color accents.",
+      "featuredPosition": 2,
+      "createdAt": "2026-02-26T13:20:00.000Z"
+    },
+    {
+      "id": "portfolio-3",
+      "title": "Copper & Clay Launch Page",
+      "image": "https://images.unsplash.com/photo-1752398760609-e4be4e766ecb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwcm9kdWN0JTIwbW9ja3VwJTIwcGFja2FnaW5nJTIwZGVzaWduJTIwbWluaW1hbHxlbnwxfHx8fDE3NzM4MTA0MDB8MA&ixlib=rb-4.1.0&q=80&w=600",
+      "category": "Ecommerce",
+      "description": "A warm, conversion-focused launch page for a decor collection with newsletter capture, story-led sections, and campaign imagery.",
+      "featuredPosition": 3,
+      "createdAt": "2026-02-19T08:40:00.000Z"
+    }
+  ],
+  "projectRequests": [
+    {
+      "id": "project-1",
+      "fullName": "Sarah Rahman",
+      "email": "mdalfaysal17@gmail.com",
+      "whatsappNumber": "+8801712000001",
+      "selectedService": "Fashion Brand Website",
+      "budget": "$2,500 - $5,000",
+      "preferredContactMethod": "WhatsApp",
+      "projectDescription": "Need a premium fashion label website with campaign landing pages, a lookbook section, and inquiry-based order flow before we connect ecommerce.",
+      "date": "2026-03-20T10:15:00.000Z"
+    },
+    {
+      "id": "project-2",
+      "fullName": "Hasib Mahmud",
+      "email": "mdalfaysal17@gmail.com",
+      "whatsappNumber": "+8801712000002",
+      "selectedService": "SaaS Dashboard Design",
+      "budget": "$5,000 - $8,000",
+      "preferredContactMethod": "Email",
+      "projectDescription": "Looking for a full redesign of our internal analytics dashboard with a cleaner admin UX and stronger reporting visuals for enterprise clients.",
+      "date": "2026-03-18T08:00:00.000Z"
+    }
+  ],
+  "subscribers": [
+    {
+      "id": "subscriber-1",
+      "email": "mdalfaysal17@gmail.com",
+      "source": "Homepage CTA",
+      "subscribedAt": "2026-03-21T04:45:00.000Z",
+      "status": "Active"
+    },
+    {
+      "id": "subscriber-2",
+      "email": "mdalfaysal17@gmail.com",
+      "source": "Case Study Footer",
+      "subscribedAt": "2026-03-20T09:22:00.000Z",
+      "status": "Active"
+    }
+  ]
+}
