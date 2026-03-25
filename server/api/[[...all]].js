@@ -1,22 +1,28 @@
 import app from "../src/app.js";
-import { connectToDatabase } from "../src/config/db.js";
+import { connectToDatabase, isDatabaseConnected } from "../src/config/db.js";
 import { seedDatabaseIfEmpty } from "../src/lib/seedDatabase.js";
 
-let bootstrapPromise;
+let seedPromise;
 
-async function bootstrap() {
+async function ensureBootstrap() {
   await connectToDatabase();
-  await seedDatabaseIfEmpty();
+
+  if (!seedPromise) {
+    seedPromise = seedDatabaseIfEmpty().catch((error) => {
+      seedPromise = undefined;
+      throw error;
+    });
+  }
+
+  await seedPromise;
 }
 
 export default async function handler(request, response) {
-  bootstrapPromise ??= bootstrap().catch((error) => {
-    bootstrapPromise = undefined;
-    throw error;
-  });
-
   try {
-    await bootstrapPromise;
+    if (!isDatabaseConnected()) {
+      await ensureBootstrap();
+    }
+
     return app(request, response);
   } catch (error) {
     console.error("Failed to bootstrap API:", error);

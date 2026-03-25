@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
 
+let connectionPromise;
+
 export async function connectToDatabase() {
   const mongoUri = process.env.MONGO_URI;
 
@@ -7,11 +9,28 @@ export async function connectToDatabase() {
     throw new Error("Missing MONGO_URI. Add it to server/.env before starting the API.");
   }
 
-  await mongoose.connect(mongoUri, {
-    serverSelectionTimeoutMS: 10000,
-  });
+  if (mongoose.connection.readyState === 1) {
+    return mongoose.connection;
+  }
 
-  console.log("Connected to MongoDB");
+  if (mongoose.connection.readyState === 2 && connectionPromise) {
+    return connectionPromise;
+  }
+
+  connectionPromise = mongoose
+    .connect(mongoUri, {
+      serverSelectionTimeoutMS: 10000,
+    })
+    .then((mongooseInstance) => {
+      console.log("Connected to MongoDB");
+      return mongooseInstance.connection;
+    })
+    .catch((error) => {
+      connectionPromise = undefined;
+      throw error;
+    });
+
+  return connectionPromise;
 }
 
 export function isDatabaseConnected() {
