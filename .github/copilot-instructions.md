@@ -1,4 +1,4 @@
-# Copilot Workspace Instructions for Modern Website
+# Copilot Workspace Instructions for Abdullah Al Faysal | Brand Identity Designer & Mockup Expert
 
 ## Overview
 This workspace is a modern, full-stack web project with a Vite-based React frontend and a Node.js/Express backend API (see `server/`). The project is inspired by a Figma design and implements a personal/agency branding website with admin features.

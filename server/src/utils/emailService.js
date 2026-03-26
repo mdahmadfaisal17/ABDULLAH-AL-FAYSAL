@@ -1,4 +1,5 @@
 import { Resend } from "resend";
+import { DEFAULT_RESEND_FALLBACK_ADDRESS, formatEmailSender } from "./emailBranding.js";
 
 let resendClient;
 
@@ -17,7 +18,7 @@ function getResendClient() {
 }
 
 function getDefaultFromAddress() {
-  return process.env.RESEND_FROM_EMAIL || "onboarding@resend.dev";
+  return formatEmailSender(process.env.RESEND_FROM_EMAIL || DEFAULT_RESEND_FALLBACK_ADDRESS);
 }
 
 export async function sendEmail({ to, subject, html, from }) {
@@ -44,11 +45,11 @@ export async function sendEmail({ to, subject, html, from }) {
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
     const isDomainNotVerified = /domain is not verified/i.test(message);
-    const isAlreadyUsingDevSender = sender.toLowerCase().includes("onboarding@resend.dev");
+    const isAlreadyUsingDevSender = sender.toLowerCase().includes(DEFAULT_RESEND_FALLBACK_ADDRESS);
 
     if (isDomainNotVerified && !isAlreadyUsingDevSender) {
       console.warn("Primary sender domain is not verified. Retrying with onboarding@resend.dev.");
-      return attemptSend("onboarding@resend.dev");
+      return attemptSend(formatEmailSender(DEFAULT_RESEND_FALLBACK_ADDRESS));
     }
 
     throw error;

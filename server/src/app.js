@@ -52,7 +52,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.get("/", (_request, response) => {
   response.json({
-    message: "Modern Website API is running.",
+    message: "Abdullah Al Faysal | Brand Identity Designer & Mockup Expert API is running.",
     docs: "/api",
   });
 });

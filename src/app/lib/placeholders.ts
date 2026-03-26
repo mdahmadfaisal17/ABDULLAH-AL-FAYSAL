@@ -19,8 +19,8 @@ export function createGradientPlaceholder(
       <text x="80" y="580" fill="#f8fafc" font-family="Poppins, Arial, sans-serif" font-size="72" font-weight="700">
         ${safeTitle}
       </text>
-      <text x="82" y="632" fill="#e2e8f0" font-family="Poppins, Arial, sans-serif" font-size="28">
-        Modern Website Admin Asset
+      <text x="82" y="632" fill="#e2e8f0" font-family="Poppins, Arial, sans-serif" font-size="22">
+        Abdullah Al Faysal | Brand Identity Designer & Mockup Expert
       </text>
     </svg>
   `;

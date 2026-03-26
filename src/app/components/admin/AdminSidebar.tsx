@@ -27,8 +27,8 @@ function SidebarContent({ onNavigate }: { onNavigate: () => void }) {
           AF
         </div>
         <div>
-          <p className="text-xs font-medium uppercase tracking-[0.32em] text-[#E1FE5D]/80">
-            Modern Website
+          <p className="text-[11px] font-medium leading-4 tracking-[0.04em] text-[#E1FE5D]/80">
+            Abdullah Al Faysal | Brand Identity Designer & Mockup Expert
           </p>
           <h1 className="mt-1 text-xl font-semibold text-white">
             Admin Panel

@@ -507,46 +507,41 @@ export default function Home() {
                 Brands I’ve worked with
               </p>
               <div className="relative h-16 min-[1025px]:h-14 overflow-hidden hero-brand-marquee-viewport w-full">
-                <motion.div
-                  className="flex gap-3 min-[451px]:gap-4 items-center absolute hero-brand-marquee-track"
-                  animate={{
-                    x: [0, -1800],
-                  }}
-                  transition={{
-                    duration: 30,
-                    repeat: Infinity,
-                    ease: "linear",
-                  }}
-                  style={{ width: "max-content" }}
-                >
-                  {/* Duplicate logos for seamless loop */}
-                  {[...clientLogos, ...clientLogos, ...clientLogos].map((client, idx) => (
+                <div className="hero-brand-marquee-track">
+                  {[0, 1].map((groupIndex) => (
                     <div
-                      key={idx}
-                      className="flex items-center gap-2.5 px-4 min-[451px]:px-3.5 py-2.5 min-[451px]:py-2 rounded-lg shrink-0 hero-brand-marquee-item"
+                      key={groupIndex}
+                      className="hero-brand-marquee-group"
+                      aria-hidden={groupIndex === 1}
                     >
-                      <div className="w-10 h-10 min-[451px]:w-9 min-[451px]:h-9 min-[1025px]:w-7 min-[1025px]:h-7 flex items-center justify-center hero-brand-marquee-logo">
-                        <img
-                          src={client.logo}
-                          alt={client.name}
-                          className="w-full h-full object-contain"
-                          loading="lazy"
-                          decoding="async"
-                        />
-                      </div>
-                      <p
-                        className="text-[0.95rem] min-[451px]:text-sm min-[1025px]:text-xs whitespace-nowrap hero-brand-marquee-text"
-                        style={{
-                          fontFamily: FB,
-                          fontWeight: 500,
-                          color: "rgba(255,255,255,0.75)",
-                        }}
-                      >
-                        {client.name}
-                      </p>
+                      {clientLogos.map((client) => (
+                        <div
+                          key={`${client.name}-${groupIndex}`}
+                          className="flex items-center gap-2.5 px-4 min-[451px]:px-3.5 py-2.5 min-[451px]:py-2 rounded-lg shrink-0 hero-brand-marquee-item"
+                        >
+                          <div className="w-10 h-10 min-[451px]:w-9 min-[451px]:h-9 min-[1025px]:w-7 min-[1025px]:h-7 flex items-center justify-center hero-brand-marquee-logo">
+                            <img
+                              src={client.logo}
+                              alt={client.name}
+                              className="w-full h-full object-contain"
+                              decoding="async"
+                            />
+                          </div>
+                          <p
+                            className="text-[0.95rem] min-[451px]:text-sm min-[1025px]:text-xs whitespace-nowrap hero-brand-marquee-text"
+                            style={{
+                              fontFamily: FB,
+                              fontWeight: 500,
+                              color: "rgba(255,255,255,0.75)",
+                            }}
+                          >
+                            {client.name}
+                          </p>
+                        </div>
+                      ))}
                     </div>
                   ))}
-                </motion.div>
+                </div>
               </div>
             </div>
           </motion.div>
