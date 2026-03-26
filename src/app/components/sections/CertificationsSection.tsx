@@ -2,6 +2,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { ChevronDown } from "lucide-react";
 import { useState } from "react";
 import { FadeUp } from "./FadeUp";
+import { buildResponsiveImageSet, optimizeImageUrl } from "../../lib/images";
 import type { CertificationItem } from "./types";
 
 export function CertificationsSection({
@@ -20,6 +21,8 @@ export function CertificationsSection({
   background?: string;
 }) {
   const [activeIndex, setActiveIndex] = useState(0);
+  const activeImage = items[activeIndex]?.image ?? "";
+  const activeResponsiveImage = buildResponsiveImageSet(activeImage, [480, 720, 960, 1200]);
 
   return (
     <section className={className} style={{ background }}>
@@ -148,11 +151,13 @@ export function CertificationsSection({
                 style={{ borderColor: "rgba(255,255,255,0.08)", boxShadow: "0 22px 55px rgba(0,0,0,0.2)" }}
               >
                 <img
-                  src={items[activeIndex].image}
+                  src={activeResponsiveImage.src ?? optimizeImageUrl(activeImage, { width: 960 })}
+                  srcSet={activeResponsiveImage.srcSet}
                   alt={items[activeIndex].title}
                   className="w-full aspect-[1.1/1] object-cover"
                   loading="lazy"
                   decoding="async"
+                  sizes="(max-width: 1024px) 100vw, 45vw"
                 />
               </div>
             </FadeUp>

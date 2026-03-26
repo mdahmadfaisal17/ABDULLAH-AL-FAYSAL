@@ -183,12 +183,14 @@ export default function Home() {
   }>>([]);
 
   useEffect(() => {
+    const controller = new AbortController();
     let isMounted = true;
-    let timeoutId: ReturnType<typeof setTimeout> | undefined;
 
     const fetchPortfolioItems = async () => {
       try {
-        const response = await fetch(`${API_BASE_URL}/portfolio`);
+        const response = await fetch(`${API_BASE_URL}/portfolio`, {
+          signal: controller.signal,
+        });
         if (!response.ok) {
           throw new Error(`Failed to fetch portfolio items: ${response.status}`);
         }
@@ -218,34 +220,19 @@ export default function Home() {
           setPortfolioItems(normalizedItems);
         }
       } catch (error) {
+        if (error instanceof DOMException && error.name === "AbortError") {
+          return;
+        }
+
         console.error("Failed to fetch featured portfolio items.", error);
       }
     };
 
-    const scheduleFetch = () => {
-      timeoutId = setTimeout(() => {
-        void fetchPortfolioItems();
-      }, 900);
-    };
-
-    if (typeof window !== "undefined" && "requestIdleCallback" in window) {
-      const idleHandle = window.requestIdleCallback(() => {
-        void fetchPortfolioItems();
-      }, { timeout: 1500 });
-
-      return () => {
-        isMounted = false;
-        window.cancelIdleCallback(idleHandle);
-      };
-    }
-
-    scheduleFetch();
+    void fetchPortfolioItems();
 
     return () => {
       isMounted = false;
-      if (timeoutId) {
-        clearTimeout(timeoutId);
-      }
+      controller.abort();
     };
   }, []);
 

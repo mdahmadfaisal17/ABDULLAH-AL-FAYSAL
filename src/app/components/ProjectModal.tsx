@@ -6,6 +6,7 @@ import { useAdminData } from "../context/AdminDataContext";
 
 const FB = "Lufga, sans-serif";
 const FH = "Lufga, sans-serif";
+const EMOJI_FONT_STACK = "\"Apple Color Emoji\", \"Segoe UI Emoji\", \"Noto Color Emoji\", sans-serif";
 
 const services = [
   "Brand Identity & Strategy",
@@ -50,13 +51,41 @@ const dialCodeToCountryCode: Array<[string, string]> = [
 ];
 
 function countryCodeToFlag(countryCode: string) {
+  if (!/^[a-z]{2}$/i.test(countryCode)) {
+    return String.fromCodePoint(0x1F310);
+  }
+
   return countryCode
     .toUpperCase()
     .replace(/./g, (char) => String.fromCodePoint(127397 + char.charCodeAt(0)));
 }
 
+function normalizePhoneNumber(phoneNumber: string) {
+  const sanitized = phoneNumber.trim().replace(/[^\d+]/g, "").replace(/^00/, "+");
+
+  if (!sanitized) {
+    return "";
+  }
+
+  if (sanitized.startsWith("+")) {
+    return sanitized;
+  }
+
+  const matchedDialCode = dialCodeToCountryCode.find(([dialCode]) => sanitized.startsWith(dialCode.slice(1)));
+  if (matchedDialCode) {
+    return `+${sanitized}`;
+  }
+
+  // Treat local Bangladeshi mobile numbers as +880 so the flag updates for the site's primary audience.
+  if (/^01\d{8,}$/.test(sanitized)) {
+    return `+880${sanitized.slice(1)}`;
+  }
+
+  return sanitized;
+}
+
 function getFlagFromPhoneNumber(phoneNumber: string) {
-  const normalized = phoneNumber.replace(/\s+/g, "");
+  const normalized = normalizePhoneNumber(phoneNumber);
   const match = dialCodeToCountryCode.find(([dialCode]) => normalized.startsWith(dialCode));
 
   if (!match) {
@@ -231,6 +260,7 @@ export function ProjectModal() {
                       <span
                         className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-lg"
                         aria-hidden="true"
+                        style={{ fontFamily: EMOJI_FONT_STACK }}
                       >
                         {phoneFlag}
                       </span>

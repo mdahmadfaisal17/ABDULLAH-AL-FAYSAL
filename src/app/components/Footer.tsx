@@ -1,11 +1,12 @@
 import { NavLink } from "react-router";
 import { Mail } from "lucide-react";
+import { toCurrentColorSvg } from "../lib/svg";
 import brandLogo from "../../imports/Brand_logos/logo.svg";
-import instagramIcon from "../../imports/social_links/instagram.svg";
-import facebookIcon from "../../imports/social_links/facebook.svg";
-import linkedinIcon from "../../imports/social_links/linkedin.svg";
-import behanceIcon from "../../imports/social_links/behance.svg";
-import pinterestIcon from "../../imports/social_links/pinterest.svg";
+import instagramIcon from "../../imports/social_links/instagram.svg?raw";
+import facebookIcon from "../../imports/social_links/facebook.svg?raw";
+import linkedinIcon from "../../imports/social_links/linkedin.svg?raw";
+import behanceIcon from "../../imports/social_links/behance.svg?raw";
+import pinterestIcon from "../../imports/social_links/pinterest.svg?raw";
 
 const quickLinks = [
   { label: "Home", to: "/" },
@@ -29,11 +30,11 @@ const legal = [
 ];
 
 const socials = [
-  { icon: instagramIcon, href: "https://www.instagram.com/abdullahalfaysal.design/", label: "Instagram" },
-  { icon: facebookIcon, href: "https://www.facebook.com/abdullahalfaysal.design", label: "Facebook" },
-  { icon: linkedinIcon, href: "https://www.linkedin.com/in/abdullahalfaysaldesign", label: "LinkedIn" },
-  { icon: behanceIcon, href: "https://www.behance.net/abdullahalfaysal", label: "Behance" },
-  { icon: pinterestIcon, href: "https://www.pinterest.com/abdullahalfaysaldesign/", label: "Pinterest" },
+  { icon: toCurrentColorSvg(instagramIcon), href: "https://www.instagram.com/abdullahalfaysal.design/", label: "Instagram" },
+  { icon: toCurrentColorSvg(facebookIcon), href: "https://www.facebook.com/abdullahalfaysal.design", label: "Facebook" },
+  { icon: toCurrentColorSvg(linkedinIcon), href: "https://www.linkedin.com/in/abdullahalfaysaldesign", label: "LinkedIn" },
+  { icon: toCurrentColorSvg(behanceIcon), href: "https://www.behance.net/abdullahalfaysal", label: "Behance" },
+  { icon: toCurrentColorSvg(pinterestIcon), href: "https://www.pinterest.com/abdullahalfaysaldesign/", label: "Pinterest" },
 ];
 
 export function Footer() {
@@ -137,14 +138,15 @@ export function Footer() {
                 <a
                   key={label}
                   href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   aria-label={label}
                   className="group w-10 h-10 flex items-center justify-center"
                 >
-                  <img
-                    src={icon}
-                    alt=""
+                  <span
                     aria-hidden="true"
-                    className="w-6 h-6 object-contain transition-all [filter:brightness(0)_saturate(100%)_invert(69%)_sepia(12%)_saturate(221%)_hue-rotate(176deg)_brightness(94%)_contrast(88%)] group-hover:[filter:brightness(0)_saturate(100%)_invert(100%)]"
+                    className="block w-6 h-6 text-gray-400 transition-colors group-hover:text-white"
+                    dangerouslySetInnerHTML={{ __html: icon }}
                   />
                 </a>
               ))}

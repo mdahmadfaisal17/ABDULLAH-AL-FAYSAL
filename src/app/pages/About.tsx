@@ -6,10 +6,13 @@ import { StatsSection } from "../components/sections/StatsSection";
 import { ToolsSection } from "../components/sections/ToolsSection";
 import { WhyChooseSection } from "../components/sections/WhyChooseSection";
 import { useModal } from "../context/ModalContext";
+import { buildResponsiveImageSet, optimizeImageUrl } from "../lib/images";
 import { homeCertifications, homeStats, tools, whyChoose } from "../components/sections/sectionData";
 
 const designerImg = "https://res.cloudinary.com/dcbdxgpm0/image/upload/v1774013083/Images01_bn2teg.jpg";
 const workspaceImg = "https://res.cloudinary.com/dcbdxgpm0/image/upload/v1774016507/photo_6156755067164363608_y_swytjn.jpg";
+const designerImgResponsive = buildResponsiveImageSet(designerImg, [480, 720, 960, 1200]);
+const workspaceImgResponsive = buildResponsiveImageSet(workspaceImg, [480, 720, 960, 1200]);
 
 export default function About() {
   const { openModal } = useModal();
@@ -55,7 +58,15 @@ export default function About() {
             className="relative"
           >
             <div className="rounded-3xl overflow-hidden aspect-[4/5]">
-              <img src={designerImg} alt="Rahul Karim" className="w-full h-full object-cover" />
+              <img
+                src={designerImgResponsive.src ?? optimizeImageUrl(designerImg, { width: 960 })}
+                srcSet={designerImgResponsive.srcSet}
+                alt="Abdullah Al Faysal portrait"
+                className="w-full h-full object-cover"
+                decoding="async"
+                fetchPriority="high"
+                sizes="(max-width: 1024px) 100vw, 42vw"
+              />
             </div>
             <div className="absolute -bottom-6 -right-6 bg-white rounded-2xl shadow-xl p-5 border border-gray-100">
               <p className="text-gray-400 text-xs mb-1" style={{ fontFamily: "Lufga, sans-serif" }}>Based in</p>
@@ -71,7 +82,15 @@ export default function About() {
         <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 pb-20 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           <FadeUp>
             <div className="rounded-3xl overflow-hidden aspect-[16/11]">
-              <img src={workspaceImg} alt="Design workspace" className="w-full h-full object-cover" />
+              <img
+                src={workspaceImgResponsive.src ?? optimizeImageUrl(workspaceImg, { width: 1200 })}
+                srcSet={workspaceImgResponsive.srcSet}
+                alt="Design workspace"
+                className="w-full h-full object-cover"
+                loading="lazy"
+                decoding="async"
+                sizes="(max-width: 1024px) 100vw, 50vw"
+              />
             </div>
           </FadeUp>
           <FadeUp delay={0.1}>

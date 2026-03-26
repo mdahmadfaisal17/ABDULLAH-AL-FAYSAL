@@ -4,27 +4,29 @@ import { X, Mail, Phone, Menu } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { useModal } from "../context/ModalContext";
 import { API_BASE_URL } from "../lib/api";
+import { toCurrentColorSvg } from "../lib/svg";
 import brandLogo from "../../imports/Brand_logos/logo.svg";
-import instagramIcon from "../../imports/social_links/instagram.svg";
-import facebookIcon from "../../imports/social_links/facebook.svg";
-import linkedinIcon from "../../imports/social_links/linkedin.svg";
-import behanceIcon from "../../imports/social_links/behance.svg";
-import pinterestIcon from "../../imports/social_links/pinterest.svg";
+import detailsIcon from "../../imports/details.svg?raw";
+import instagramIcon from "../../imports/social_links/instagram.svg?raw";
+import facebookIcon from "../../imports/social_links/facebook.svg?raw";
+import linkedinIcon from "../../imports/social_links/linkedin.svg?raw";
+import behanceIcon from "../../imports/social_links/behance.svg?raw";
+import pinterestIcon from "../../imports/social_links/pinterest.svg?raw";
 
 const arrowIcon = new URL("../../imports/Arrow-1.svg", import.meta.url).href;
 const submitArrowIcon = new URL("../../imports/Arrow.svg", import.meta.url).href;
-const detailsIcon = new URL("../../imports/details.svg", import.meta.url).href;
 
 const FH = "Lufga, sans-serif";
 const FB = "Lufga, sans-serif";
 const FP = "Lufga, sans-serif";
+const detailsIconMarkup = toCurrentColorSvg(detailsIcon);
 
 const drawerSocials = [
-  { icon: instagramIcon, href: "https://www.instagram.com/abdullahalfaysal.design/", label: "Instagram" },
-  { icon: facebookIcon, href: "https://www.facebook.com/abdullahalfaysal.design", label: "Facebook" },
-  { icon: linkedinIcon, href: "https://www.linkedin.com/in/abdullahalfaysaldesign", label: "LinkedIn" },
-  { icon: behanceIcon, href: "https://www.behance.net/abdullahalfaysal", label: "Behance" },
-  { icon: pinterestIcon, href: "https://www.pinterest.com/abdullahalfaysaldesign/", label: "Pinterest" },
+  { icon: toCurrentColorSvg(instagramIcon), href: "https://www.instagram.com/abdullahalfaysal.design/", label: "Instagram" },
+  { icon: toCurrentColorSvg(facebookIcon), href: "https://www.facebook.com/abdullahalfaysal.design", label: "Facebook" },
+  { icon: toCurrentColorSvg(linkedinIcon), href: "https://www.linkedin.com/in/abdullahalfaysaldesign", label: "LinkedIn" },
+  { icon: toCurrentColorSvg(behanceIcon), href: "https://www.behance.net/abdullahalfaysal", label: "Behance" },
+  { icon: toCurrentColorSvg(pinterestIcon), href: "https://www.pinterest.com/abdullahalfaysaldesign/", label: "Pinterest" },
 ];
 
 // Navigation Link with Hover Animation
@@ -207,10 +209,10 @@ export function Header() {
                 onClick={() => setIsDetailsOpen(true)}
                 className="p-2 text-white hover:bg-white/10 rounded-lg transition-colors"
               >
-                <img
-                  src={detailsIcon}
-                  alt="Details"
-                  className="w-5 h-5 sm:w-6 sm:h-6 brightness-0 invert"
+                <span
+                  aria-hidden="true"
+                  className="block w-5 h-5 sm:w-6 sm:h-6"
+                  dangerouslySetInnerHTML={{ __html: detailsIconMarkup }}
                 />
               </button>
               {/* Mobile Menu Button - Shows when navbar is hidden */}
@@ -556,11 +558,10 @@ export function Header() {
                       aria-label={label}
                       className="group w-10 h-10 flex items-center justify-center"
                     >
-                      <img
-                        src={icon}
-                        alt=""
+                      <span
                         aria-hidden="true"
-                        className="w-6 h-6 object-contain transition-all [filter:brightness(0)_saturate(100%)_invert(69%)_sepia(12%)_saturate(221%)_hue-rotate(176deg)_brightness(94%)_contrast(88%)] group-hover:[filter:brightness(0)_saturate(100%)_invert(100%)]"
+                        className="block w-6 h-6 text-white/60 transition-colors group-hover:text-white"
+                        dangerouslySetInnerHTML={{ __html: icon }}
                       />
                     </a>
                   ))}

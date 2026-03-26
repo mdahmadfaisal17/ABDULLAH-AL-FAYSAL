@@ -26,9 +26,10 @@ export function optimizeImageUrl(src: string, options: ImageOptions = {}) {
   const { width, quality = 80 } = options;
 
   if (src.includes("res.cloudinary.com") && src.includes("/image/upload/")) {
-    const transforms = ["f_auto", "q_auto"];
+    const transforms = ["f_auto", "q_auto", "dpr_auto"];
 
     if (width) {
+      transforms.push("c_limit");
       transforms.push(`w_${Math.round(width)}`);
     }
 
@@ -38,7 +39,7 @@ export function optimizeImageUrl(src: string, options: ImageOptions = {}) {
   if (src.includes("images.unsplash.com/")) {
     const url = new URL(src);
 
-    url.searchParams.set("auto", "format");
+    url.searchParams.set("auto", "format,compress");
     url.searchParams.set("q", String(quality));
 
     if (width) {
