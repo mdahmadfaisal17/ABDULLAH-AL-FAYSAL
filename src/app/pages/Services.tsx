@@ -18,6 +18,25 @@ import MockupIcon from "../../imports/service-icons/mockup.svg?raw";
 
 const FH = "Lufga, sans-serif";
 
+type ServiceFeatureTone = "default" | "strong" | "muted";
+
+type ServiceFeature = {
+  label: string;
+  tone: ServiceFeatureTone;
+};
+
+type ServiceItem = {
+  icon: string;
+  color: string;
+  title: string;
+  tagline: string;
+  desc: string;
+  features: readonly ServiceFeature[];
+  audience: string;
+  cta: string;
+  price: string;
+};
+
 function toCurrentColorSvg(svg: string) {
   return svg
     .replace(/<\?xml[\s\S]*?\?>\s*/i, "")
@@ -61,7 +80,7 @@ function FadeUp({ children, delay = 0 }: { children: ReactNode; delay?: number }
   );
 }
 
-const services = [
+const services: readonly ServiceItem[] = [
   {
     icon: TargetIcon,
     color: "#E1FE5D",
@@ -134,7 +153,7 @@ const services = [
     cta: "Showcase Your Products",
     price: "$70",
   },
-] as const;
+];
 
 export default function Services() {
   const { openModal } = useModal();
