@@ -17,9 +17,11 @@ import {
   removeBlog,
   removePortfolioItem,
 } from "../lib/api";
+import { emptyDashboardAnalyticsSummary } from "../types/admin";
 import type {
   BlogFormValues,
   BlogPost,
+  DashboardAnalyticsSummary,
   PortfolioFormValues,
   PortfolioItem,
   ProjectRequest,
@@ -31,6 +33,7 @@ type AdminDataContextValue = {
   blogs: BlogPost[];
   portfolioItems: PortfolioItem[];
   subscribers: Subscriber[];
+  analyticsSummary: DashboardAnalyticsSummary;
   addProjectRequest: (values: ProjectRequestPayload) => Promise<void>;
   addBlog: (values: BlogFormValues) => Promise<void>;
   updateBlog: (blogId: string, values: BlogFormValues) => Promise<void>;
@@ -52,6 +55,9 @@ export function AdminDataProvider({ children }: { children: ReactNode }) {
   const [portfolioItems, setPortfolioItems] = useState<PortfolioItem[]>([]);
   const [projectRequests, setProjectRequests] = useState<ProjectRequest[]>([]);
   const [subscribers, setSubscribers] = useState<Subscriber[]>([]);
+  const [analyticsSummary, setAnalyticsSummary] = useState<DashboardAnalyticsSummary>(
+    emptyDashboardAnalyticsSummary,
+  );
 
   useEffect(() => {
     let isMounted = true;
@@ -68,6 +74,7 @@ export function AdminDataProvider({ children }: { children: ReactNode }) {
         setPortfolioItems(data.portfolioItems);
         setProjectRequests(data.projectRequests);
         setSubscribers(data.subscribers);
+        setAnalyticsSummary(data.analyticsSummary);
       } catch (error) {
         console.error("Failed to load admin data from the backend.", error);
       }
@@ -177,6 +184,7 @@ export function AdminDataProvider({ children }: { children: ReactNode }) {
       blogs,
       portfolioItems: normalizedPortfolioItems,
       subscribers,
+      analyticsSummary,
       addProjectRequest,
       addBlog,
       updateBlog,
@@ -185,7 +193,7 @@ export function AdminDataProvider({ children }: { children: ReactNode }) {
       updatePortfolioItem,
       deletePortfolioItem,
     }),
-    [blogs, normalizedPortfolioItems, projectRequests, subscribers],
+    [analyticsSummary, blogs, normalizedPortfolioItems, projectRequests, subscribers],
   );
 
   return (
@@ -208,6 +216,7 @@ export function useAdminData() {
     blogs: [],
     portfolioItems: [],
     subscribers: [],
+    analyticsSummary: emptyDashboardAnalyticsSummary,
     addBlog: async () => {},
     updateBlog: async () => {},
     deleteBlog: async () => {},

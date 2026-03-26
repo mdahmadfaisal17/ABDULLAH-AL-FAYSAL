@@ -81,3 +81,12 @@ export type DashboardAnalyticsMetric = {
   description: string;
   source: AnalyticsDataSource;
 };
+
+export const emptyDashboardAnalyticsSummary: DashboardAnalyticsSummary = {
+  totalVisitors: 0,
+  todayVisitors: 0,
+  monthlyVisitors: 0,
+  totalPageViews: 0,
+  totalLeads: 0,
+  totalSubscribers: 0,
+};

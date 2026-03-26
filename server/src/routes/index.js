@@ -1,5 +1,6 @@
 import { Router } from "express";
 import adminDataRouter from "./admin-data.js";
+import analyticsRouter from "./analytics.js";
 import blogsRouter from "./blogs.js";
 import contactRouter from "./contact.js";
 import healthRouter from "./health.js";
@@ -14,6 +15,7 @@ router.get("/", (_request, response) => {
     message: "API root",
     endpoints: {
       adminData: "/api/admin-data",
+      analytics: "/api/analytics",
       blogs: "/api/blogs",
       contact: "/api/contact",
       health: "/api/health",
@@ -25,6 +27,7 @@ router.get("/", (_request, response) => {
 });
 
 router.use("/admin-data", adminDataRouter);
+router.use("/analytics", analyticsRouter);
 router.use("/blogs", blogsRouter);
 router.use("/contact", contactRouter);
 router.use("/health", healthRouter);

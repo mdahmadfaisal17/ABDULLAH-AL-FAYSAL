@@ -1,6 +1,7 @@
 import type {
   BlogFormValues,
   BlogPost,
+  DashboardAnalyticsSummary,
   PortfolioFormValues,
   PortfolioItem,
   ProjectRequest,
@@ -12,6 +13,7 @@ export type AdminDataResponse = {
   portfolioItems: PortfolioItem[];
   projectRequests: ProjectRequest[];
   subscribers: Subscriber[];
+  analyticsSummary: DashboardAnalyticsSummary;
 };
 
 export type AdminSessionResponse = {

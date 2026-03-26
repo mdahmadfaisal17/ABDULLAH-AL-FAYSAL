@@ -11,7 +11,7 @@ import {
   Users,
 } from "lucide-react";
 import { Link, useSearchParams } from "react-router";
-import { dashboardAnalyticsMetrics, getDashboardAnalyticsSummary } from "../../data/analyticsMock";
+import { dashboardAnalyticsMetrics } from "../../data/dashboardAnalytics";
 import { PageHeader } from "../../components/admin/PageHeader";
 import { SectionCard } from "../../components/admin/SectionCard";
 import { StatsCard } from "../../components/admin/StatsCard";
@@ -30,9 +30,8 @@ const analyticsIcons: Record<AnalyticsMetricKey, typeof Users> = {
 };
 
 export function DashboardPage() {
-  const { projectRequests, blogs, portfolioItems, subscribers } = useAdminData();
+  const { projectRequests, blogs, portfolioItems, subscribers, analyticsSummary } = useAdminData();
   const [searchParams] = useSearchParams();
-  const analyticsSummary = getDashboardAnalyticsSummary();
   const searchQuery = (searchParams.get("q") ?? "").trim().toLowerCase();
   const filteredProjectRequests = useMemo(() => {
     if (!searchQuery) {
@@ -157,7 +156,7 @@ export function DashboardPage() {
         <div className="space-y-6">
           <SectionCard
             title="Content Snapshot"
-            description="Quick-glance signals from the mock CMS modules."
+            description="Quick-glance signals from the live CMS data."
           >
             <div className="grid gap-4 px-6 py-6">
               <div className="rounded-3xl border border-white/10 bg-slate-950/60 p-5">

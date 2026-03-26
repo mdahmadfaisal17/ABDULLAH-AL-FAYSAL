@@ -13,14 +13,30 @@
       <link rel="preconnect" href="https://images.unsplash.com" />
       <link rel="dns-prefetch" href="https://res.cloudinary.com" />
       <link rel="dns-prefetch" href="https://images.unsplash.com" />
-      <script async src="https://www.googletagmanager.com/gtag/js?id=G-9DFJ54SBSY"></script>
       <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag() {
-          dataLayer.push(arguments);
-        }
-        gtag("js", new Date());
-        gtag("config", "G-9DFJ54SBSY");
+        (function () {
+          const hostname = window.location.hostname;
+          const analyticsEnabled =
+            hostname !== "localhost" && hostname !== "127.0.0.1";
+
+          if (!analyticsEnabled) {
+            return;
+          }
+
+          const script = document.createElement("script");
+          script.async = true;
+          script.src = "https://www.googletagmanager.com/gtag/js?id=G-9DFJ54SBSY";
+          document.head.appendChild(script);
+
+          window.dataLayer = window.dataLayer || [];
+          function gtag() {
+            window.dataLayer.push(arguments);
+          }
+
+          window.gtag = gtag;
+          gtag("js", new Date());
+          gtag("config", "G-9DFJ54SBSY");
+        })();
       </script>
     </head>
 
